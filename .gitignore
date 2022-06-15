@@ -19,3 +19,4 @@ serving_dir
 **/pgadmin_data
 *.parquet
 **/data
+**/__pycache__
