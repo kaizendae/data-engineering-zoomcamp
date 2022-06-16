@@ -12,6 +12,8 @@ services:
       - "4444:5432"
     volumes:
       - ./my_taxi_data:/var/lib/postgresql/data:rw
+    networks:
+      - airflow
   pgadmin:
     container_name: pgadmin4_container
     image: dpage/pgadmin4
@@ -27,9 +29,14 @@ services:
       - "db:database"
     depends_on:
       - db
-  ingerstor:
-    container_name: taxi_data_ingestor
-    image: taxi_ingest:001
-    links:
-      - "db:database"
-    command: --user=root --password=root --host=database --port=5432 --database=ny_taxi --table=yellow_taxi_data --url=https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_2022-01.parquet
+  # ingerstor:
+  #   container_name: taxi_data_ingestor
+  #   image: taxi_ingest:001
+  #   links:
+  #     - "db:database"
+  #   command: --user=root --password=root --host=database --port=5432 --database=ny_taxi --table=yellow_taxi_data --url=https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_2022-01.parquet
+
+networks:
+  airflow:
+    external:
+      name: mi_airflow_default
